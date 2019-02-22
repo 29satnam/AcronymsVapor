@@ -1,27 +1,14 @@
 import Vapor
+import Fluent
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
-    // Basic "It works" example
-    router.get { req in
-        return "It works!"
-    }
-    
-    // Basic "Hello, world!" example
-    router.get("hello") { req in
-        return "Hello, world!"
-    }
 
-    // Example of configuring a controller
-    /*let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete) */
+    let acronymsController = AcronymsController()
+    //Create a new AcronymsController.
 
-    router.post("api", "acronyms") { req -> Future<Acronym> in
-        return try req.content.decode(Acronym.self)
-            .flatMap(to: Acronym.self) { acronym in
-                return acronym.save(on: req)
-        }
-    }
+    try router.register(collection: acronymsController)
+    //Register the new type with the router to ensure the controller’s routes get registered.
+
 }
+// Page 120
